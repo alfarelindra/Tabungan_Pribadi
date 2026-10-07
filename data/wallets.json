@@ -1,0 +1,52 @@
+[
+  {
+    "id": "w_bca",
+    "name": "Rekening Bank BCA",
+    "type": "bank",
+    "accountNumber": "8271-992-019",
+    "initialBalance": 20000000,
+    "color": "from-blue-600 via-indigo-600 to-blue-800",
+    "icon": "Building2",
+    "createdAt": "2026-10-01T00:00:00.000Z"
+  },
+  {
+    "id": "w_dana",
+    "name": "DANA",
+    "type": "ewallet",
+    "accountNumber": "0812-9988-7711",
+    "initialBalance": 1250000,
+    "color": "from-sky-500 via-blue-600 to-indigo-600",
+    "icon": "Smartphone",
+    "createdAt": "2026-10-01T00:00:00.000Z"
+  },
+  {
+    "id": "w_shopeepay",
+    "name": "ShopeePay",
+    "type": "ewallet",
+    "accountNumber": "0812-9988-7711",
+    "initialBalance": 850000,
+    "color": "from-orange-500 via-amber-600 to-rose-600",
+    "icon": "ShoppingBag",
+    "createdAt": "2026-10-01T00:00:00.000Z"
+  },
+  {
+    "id": "w_gopay",
+    "name": "GoPay",
+    "type": "ewallet",
+    "accountNumber": "0812-9988-7711",
+    "initialBalance": 600000,
+    "color": "from-emerald-500 via-teal-600 to-cyan-700",
+    "icon": "Smartphone",
+    "createdAt": "2026-10-01T00:00:00.000Z"
+  },
+  {
+    "id": "w_cash",
+    "name": "Uang Tunai / Cash",
+    "type": "cash",
+    "accountNumber": "Dompet Fisik",
+    "initialBalance": 1500000,
+    "color": "from-[#F3C5B5] via-[#B76E79] to-[#8E434D]",
+    "icon": "Banknote",
+    "createdAt": "2026-10-01T00:00:00.000Z"
+  }
+]

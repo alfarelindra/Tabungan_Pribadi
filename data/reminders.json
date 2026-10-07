@@ -1,0 +1,56 @@
+[
+  {
+    "id": "rem_01",
+    "kind": "bill",
+    "name": "Langganan Replit Core & Cloud AI",
+    "amount": 320000,
+    "frequency": "Bulanan",
+    "dueDate": "2026-10-10",
+    "walletId": "w_bca",
+    "isPaid": true,
+    "category": "Teknologi & Software",
+    "createdAt": "2026-10-01T00:00:00.000Z",
+    "paidAt": "2026-10-06T05:05:15.383Z",
+    "updatedAt": "2026-10-06T05:05:15.383Z"
+  },
+  {
+    "id": "rem_02",
+    "kind": "bill",
+    "name": "Tagihan Listrik PLN & Internet Fiber",
+    "amount": 680000,
+    "frequency": "Bulanan",
+    "dueDate": "2026-10-14",
+    "walletId": "w_dana",
+    "isPaid": true,
+    "category": "Utilitas & Tagihan",
+    "createdAt": "2026-10-01T00:00:00.000Z",
+    "paidAt": "2026-10-06T07:58:31.900Z",
+    "updatedAt": "2026-10-06T07:58:31.900Z"
+  },
+  {
+    "id": "rem_03",
+    "kind": "loan",
+    "loanType": "debt",
+    "name": "Cicilan Pinjaman Modal Usaha (Pak Budi)",
+    "amount": 2500000,
+    "borrowDate": "2026-08-15",
+    "dueDate": "2026-10-20",
+    "walletId": "w_bca",
+    "isPaid": false,
+    "notes": "Tahap 2 dari 3 pelunasan pinjaman modal rintisan usaha",
+    "createdAt": "2026-08-15T00:00:00.000Z"
+  },
+  {
+    "id": "rem_04",
+    "kind": "loan",
+    "loanType": "receivable",
+    "name": "Piutang Rekan Kerja (Dimas)",
+    "amount": 1000000,
+    "borrowDate": "2026-09-10",
+    "dueDate": "2026-10-18",
+    "walletId": "w_dana",
+    "isPaid": false,
+    "notes": "Talangan sewa mobil dinas luar kota",
+    "createdAt": "2026-09-10T00:00:00.000Z"
+  }
+]

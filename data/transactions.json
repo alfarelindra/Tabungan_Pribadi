@@ -1,0 +1,197 @@
+[
+  {
+    "id": "tx_1791273511896_av54b9",
+    "type": "expense",
+    "amount": 680000,
+    "category": "Tagihan",
+    "date": "2026-10-06",
+    "note": "Pembayaran: Tagihan Listrik PLN & Internet Fiber",
+    "walletId": "w_dana",
+    "createdAt": "2026-10-06T07:58:31.896Z",
+    "updatedAt": "2026-10-06T07:58:31.896Z"
+  },
+  {
+    "id": "tx_1791263115381_4abdtm",
+    "type": "expense",
+    "amount": 320000,
+    "category": "Tagihan",
+    "date": "2026-10-06",
+    "note": "Pembayaran langganan Replit",
+    "walletId": "w_bca",
+    "createdAt": "2026-10-06T05:05:15.381Z",
+    "updatedAt": "2026-10-06T05:05:15.381Z"
+  },
+  {
+    "id": "tx_1791263115348_qt7u5m",
+    "type": "expense",
+    "amount": 1000000,
+    "category": "Alokasi Tabungan",
+    "date": "2026-10-06",
+    "note": "Alokasi bulanan dana darurat",
+    "walletId": "w_bca",
+    "createdAt": "2026-10-06T05:05:15.348Z",
+    "updatedAt": "2026-10-06T05:05:15.348Z"
+  },
+  {
+    "id": "tx_1791262557135_pdvbpi",
+    "type": "transfer",
+    "amount": 1000000,
+    "category": "Transfer Antar Akun",
+    "date": "2026-10-06",
+    "note": "",
+    "fromWalletId": "w_bca",
+    "toWalletId": "w_dana",
+    "createdAt": "2026-10-06T04:55:57.135Z",
+    "updatedAt": "2026-10-06T04:55:57.135Z"
+  },
+  {
+    "id": "tx_1791261988745_d7lele",
+    "type": "expense",
+    "amount": 500000,
+    "category": "Tagihan",
+    "date": "2026-10-06",
+    "note": "",
+    "createdAt": "2026-10-06T04:46:28.745Z",
+    "updatedAt": "2026-10-06T04:46:28.745Z"
+  },
+  {
+    "id": "tx_seed_01",
+    "type": "income",
+    "amount": 15000000,
+    "category": "Gaji",
+    "date": "2026-10-01",
+    "note": "Gaji Pokok & Tunjangan Oktober",
+    "createdAt": "2026-10-01T08:00:00.000Z",
+    "updatedAt": "2026-10-01T08:00:00.000Z"
+  },
+  {
+    "id": "tx_seed_02",
+    "type": "income",
+    "amount": 4500000,
+    "category": "Bisnis",
+    "date": "2026-10-03",
+    "note": "Pendapatan Project Web App Freelance",
+    "createdAt": "2026-10-03T10:30:00.000Z",
+    "updatedAt": "2026-10-03T10:30:00.000Z"
+  },
+  {
+    "id": "tx_seed_03",
+    "type": "expense",
+    "amount": 3200000,
+    "category": "Tempat Tinggal",
+    "date": "2026-10-02",
+    "note": "Sewa Apartemen & Maintenance Bulanan",
+    "createdAt": "2026-10-02T09:00:00.000Z",
+    "updatedAt": "2026-10-02T09:00:00.000Z"
+  },
+  {
+    "id": "tx_seed_04",
+    "type": "expense",
+    "amount": 1450000,
+    "category": "Belanja",
+    "date": "2026-10-03",
+    "note": "Belanja Bulanan Supermarket (Bahan Makanan)",
+    "createdAt": "2026-10-03T14:15:00.000Z",
+    "updatedAt": "2026-10-03T14:15:00.000Z"
+  },
+  {
+    "id": "tx_seed_05",
+    "type": "expense",
+    "amount": 480000,
+    "category": "Tagihan",
+    "date": "2026-10-04",
+    "note": "Tagihan Internet Fiber & Listrik PLN",
+    "createdAt": "2026-10-04T11:00:00.000Z",
+    "updatedAt": "2026-10-04T11:00:00.000Z"
+  },
+  {
+    "id": "tx_seed_06",
+    "type": "expense",
+    "amount": 350000,
+    "category": "Transportasi",
+    "date": "2026-10-04",
+    "note": "Pengisian Saldo e-Toll & Bensin Pertamax",
+    "createdAt": "2026-10-04T16:20:00.000Z",
+    "updatedAt": "2026-10-04T16:20:00.000Z"
+  },
+  {
+    "id": "tx_seed_07",
+    "type": "expense",
+    "amount": 185000,
+    "category": "Makanan",
+    "date": "2026-10-05",
+    "note": "Dinner & Kopi Spesialti di Cafe Rose Gold",
+    "createdAt": "2026-10-05T19:45:00.000Z",
+    "updatedAt": "2026-10-05T19:45:00.000Z"
+  },
+  {
+    "id": "tx_seed_08",
+    "type": "income",
+    "amount": 1200000,
+    "category": "Investasi",
+    "date": "2026-10-05",
+    "note": "Dividen Saham Kuartal III",
+    "createdAt": "2026-10-05T10:00:00.000Z",
+    "updatedAt": "2026-10-05T10:00:00.000Z"
+  },
+  {
+    "id": "tx_seed_10",
+    "type": "income",
+    "amount": 14500000,
+    "category": "Gaji",
+    "date": "2026-09-01",
+    "note": "Gaji Pokok September",
+    "createdAt": "2026-09-01T08:00:00.000Z",
+    "updatedAt": "2026-09-01T08:00:00.000Z"
+  },
+  {
+    "id": "tx_seed_11",
+    "type": "income",
+    "amount": 3200000,
+    "category": "Bisnis",
+    "date": "2026-09-15",
+    "note": "Jasa Desain UI/UX Portfolio",
+    "createdAt": "2026-09-15T13:00:00.000Z",
+    "updatedAt": "2026-09-15T13:00:00.000Z"
+  },
+  {
+    "id": "tx_seed_12",
+    "type": "expense",
+    "amount": 6850000,
+    "category": "Belanja",
+    "date": "2026-09-18",
+    "note": "Upgrade Hardware Monitor 4K Ultrawide",
+    "createdAt": "2026-09-18T15:30:00.000Z",
+    "updatedAt": "2026-09-18T15:30:00.000Z"
+  },
+  {
+    "id": "tx_seed_13",
+    "type": "expense",
+    "amount": 3100000,
+    "category": "Tempat Tinggal",
+    "date": "2026-09-02",
+    "note": "Sewa Apartemen September",
+    "createdAt": "2026-09-02T09:00:00.000Z",
+    "updatedAt": "2026-09-02T09:00:00.000Z"
+  },
+  {
+    "id": "tx_seed_14",
+    "type": "income",
+    "amount": 14000000,
+    "category": "Gaji",
+    "date": "2026-08-01",
+    "note": "Gaji Pokok Agustus",
+    "createdAt": "2026-08-01T08:00:00.000Z",
+    "updatedAt": "2026-08-01T08:00:00.000Z"
+  },
+  {
+    "id": "tx_seed_15",
+    "type": "expense",
+    "amount": 5400000,
+    "category": "Belanja",
+    "date": "2026-08-10",
+    "note": "Kebutuhan Rumah & Perlengkapan Kerja",
+    "createdAt": "2026-08-10T11:00:00.000Z",
+    "updatedAt": "2026-08-10T11:00:00.000Z"
+  }
+]

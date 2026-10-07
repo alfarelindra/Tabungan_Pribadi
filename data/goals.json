@@ -1,0 +1,26 @@
+[
+  {
+    "id": "goal_02",
+    "name": "Upgrade Laptop & Monitor Studio",
+    "targetAmount": 24000000,
+    "currentAmount": 16500000,
+    "targetDate": "2026-12-31",
+    "category": "Produktivitas & Karir",
+    "color": "from-[#F3C5B5] via-[#B76E79] to-[#8E434D]",
+    "icon": "Laptop",
+    "notes": "Pembaruan perangkat kerja profesional",
+    "createdAt": "2026-10-01T00:00:00.000Z"
+  },
+  {
+    "id": "goal_03",
+    "name": "Liburan Musim Semi ke Jepang",
+    "targetAmount": 20000000,
+    "currentAmount": 7000000,
+    "targetDate": "2027-04-15",
+    "category": "Traveling & Rekreasi",
+    "color": "from-pink-500 via-rose-600 to-purple-700",
+    "icon": "Plane",
+    "notes": "Tiket pesawat, akomodasi Tokyo & Kyoto",
+    "createdAt": "2026-10-01T00:00:00.000Z"
+  }
+]
