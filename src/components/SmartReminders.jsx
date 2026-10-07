@@ -8,7 +8,8 @@ export default function SmartReminders({
   onAddNewReminder,
   onEditReminder,
   onDeleteReminder,
-  onPayReminder
+  onPayReminder,
+  onOpenNotifications
 }) {
   const [filterType, setFilterType] = useState('unpaid') // 'unpaid' | 'all' | 'bill' | 'loan' | 'paid'
 
@@ -95,6 +96,17 @@ export default function SmartReminders({
                 {formatRupiah(totalUnpaidAmount)}
               </span>
             </div>
+          )}
+
+          {onOpenNotifications && (
+            <button
+              onClick={onOpenNotifications}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#111726] hover:bg-[#182136] border border-slate-700 text-xs font-semibold text-[#E0A96D] transition-all cursor-pointer"
+              title="Pengaturan Notifikasi Browser & WhatsApp"
+            >
+              <Bell className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Notifikasi & WA</span>
+            </button>
           )}
 
           <button

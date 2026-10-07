@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Sparkles, Lock, Mail, Key, Eye, EyeOff, ArrowRight, ShieldCheck, AlertCircle, CheckCircle2 } from 'lucide-react'
+import { Sparkles, Lock, Mail, Key, Eye, EyeOff, ArrowRight, ShieldCheck, AlertCircle, CheckCircle2, ChevronLeft } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 import TiltCard from './3d/TiltCard'
 import RoseGoldEmblem3D from './3d/RoseGoldEmblem3D'
 import { signInWithEmail, signUpWithEmail, isSupabaseConfigured, saveSupabaseAnonKey } from '../services/supabase'
 
-export default function AuthScreen({ onAuthSuccess, onContinueDemo }) {
+export default function AuthScreen({ onAuthSuccess, onContinueDemo, onBack }) {
   const [mode, setMode] = useState('signin') // 'signin' | 'signup'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -85,6 +85,16 @@ export default function AuthScreen({ onAuthSuccess, onContinueDemo }) {
         transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
         className="w-full max-w-md relative z-10"
       >
+        {onBack && (
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-[#E0A96D] mb-4 transition-colors cursor-pointer"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span>Kembali ke Halaman Depan</span>
+          </button>
+        )}
         <TiltCard maxTilt={6} perspective={1000} scale={1.01} glare={true}>
           <div className="glass-card-interactive relative overflow-hidden rounded-3xl p-6 sm:p-8 border border-[#E0A96D]/30 shadow-2xl shadow-black/80">
             

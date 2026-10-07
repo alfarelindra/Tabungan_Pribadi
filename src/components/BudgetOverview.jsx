@@ -5,6 +5,7 @@ import { formatRupiah } from '../utils/formatters'
 export default function BudgetOverview({
   monthlyExpense = 0,
   budget = 8000000,
+  categories = [],
   onUpdateBudget
 }) {
   const [isEditing, setIsEditing] = useState(false)
@@ -14,6 +15,12 @@ export default function BudgetOverview({
   const remainingBudget = budget - monthlyExpense
   const isOverBudget = remainingBudget < 0
   const isWarning = usedPercentage >= 80 && !isOverBudget
+
+  // Category overspending detection (>40% of entire budget or >80% warning threshold)
+  const highRiskCategories = categories.filter(c => {
+    const catPercent = budget > 0 ? (c.amount / (budget * 0.35)) * 100 : 0
+    return catPercent >= 80
+  })
 
   const handleSave = (e) => {
     e.preventDefault()
@@ -50,7 +57,7 @@ export default function BudgetOverview({
               )}
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
-              Pantau batas pengeluaran untuk mempertahankan kestabilan finansial
+              Pantau batas pengeluaran & deteksi overspending per kategori secara otomatis
             </p>
           </div>
         </div>
@@ -125,6 +132,32 @@ export default function BudgetOverview({
             }`}
           ></div>
         </div>
+
+        {/* Smart Category Overspending Alerts */}
+        {highRiskCategories.length > 0 && (
+          <div className="mt-3 pt-3 border-t border-slate-800/40 flex flex-wrap items-center gap-2">
+            <span className="text-[11px] text-slate-400 font-medium flex items-center gap-1">
+              <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
+              Peringatan Kategori:
+            </span>
+            {highRiskCategories.map(cat => {
+              const shareOfExp = monthlyExpense > 0 ? Math.round((cat.amount / monthlyExpense) * 100) : 0
+              const isCrit = shareOfExp >= 45
+              return (
+                <span
+                  key={cat.name}
+                  className={`text-[10px] font-semibold px-2.5 py-0.5 rounded-full border flex items-center gap-1 ${
+                    isCrit
+                      ? 'bg-rose-500/15 border-rose-500/30 text-rose-300'
+                      : 'bg-amber-500/15 border-amber-500/30 text-amber-300'
+                  }`}
+                >
+                  <strong>{cat.name}</strong>: {formatRupiah(cat.amount)} ({shareOfExp}% dari total belanja)
+                </span>
+              )
+            })}
+          </div>
+        )}
       </div>
     </div>
   )

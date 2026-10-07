@@ -21,6 +21,18 @@ import AuthScreen from './components/AuthScreen'
 import Toast from './components/Toast'
 import RoseGoldEmblem3D from './components/3d/RoseGoldEmblem3D'
 
+// === NEW MODULES (v2) ===
+import NetWorthWidget from './components/NetWorthWidget'
+import FinancialCalculatorModal from './components/FinancialCalculatorModal'
+import BankImportModal from './components/BankImportModal'
+import ReceiptScanModal from './components/ReceiptScanModal'
+import RecurringTransactionsModal from './components/RecurringTransactionsModal'
+import FinancialHealthScore from './components/FinancialHealthScore'
+import LandingPage from './components/LandingPage'
+import { useNotifications, NotificationSettingsPanel } from './components/NotificationSettings'
+import { AppLockScreen, AppLockSetupModal, useAppLock } from './components/AppLock'
+import { generatePdfReport } from './utils/pdfReport'
+
 // Supabase Auth & CRUD Services
 import { 
   supabase, 
@@ -82,7 +94,7 @@ import {
 } from './services/api'
 
 import { formatRupiah } from './utils/formatters'
-import { ShieldCheck, Plus, Sparkles, RefreshCw, ArrowRightLeft, Lock } from 'lucide-react'
+import { ShieldCheck, Plus, Sparkles, RefreshCw, ArrowRightLeft, Lock, Calculator, FileText, Camera, Clock, Download, Settings, Bell } from 'lucide-react'
 
 // Variasi Animasi Staggered Reveal Mulus untuk Dashboard
 const staggerContainerVariants = {
@@ -149,6 +161,39 @@ export default function App() {
   // State Backup / Restore
   const [isExportImportModalOpen, setIsExportImportModalOpen] = useState(false)
   const [toast, setToast] = useState(null)
+
+  // === NEW MODULE STATES ===
+  // Landing Page
+  const [showLanding, setShowLanding] = useState(true)
+  // Financial Calculator
+  const [isCalcModalOpen, setIsCalcModalOpen] = useState(false)
+  // Bank Import
+  const [isBankImportOpen, setIsBankImportOpen] = useState(false)
+  // Receipt Scan
+  const [isReceiptScanOpen, setIsReceiptScanOpen] = useState(false)
+  // Recurring Transactions
+  const [isRecurringOpen, setIsRecurringOpen] = useState(false)
+  // App Lock
+  const [isLockSetupOpen, setIsLockSetupOpen] = useState(false)
+  const appLock = useAppLock()
+  const [isLocked, setIsLocked] = useState(() => appLock.hasPin() && appLock.isLocked())
+  // Notification settings panel
+  const [isNotifPanelOpen, setIsNotifPanelOpen] = useState(false)
+  useNotifications(reminders)
+
+  // App lock on visibility change
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === 'hidden' && appLock.hasPin()) {
+        appLock.lock()
+      }
+      if (document.visibilityState === 'visible' && appLock.hasPin() && appLock.isLocked()) {
+        setIsLocked(true)
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+    return () => document.removeEventListener('visibilitychange', handleVisibility)
+  }, [])
 
   // Helper Toast Feedback
   const showToast = (type, title, message) => {
@@ -781,8 +826,29 @@ export default function App() {
     )
   }
 
-  // Jika Belum Terotentikasi & Tidak Dalam Mode Demo: Tampilkan AuthScreen
+  // App Lock Gate
+  if (isLocked) {
+    return <AppLockScreen onUnlock={() => { appLock.unlock(); setIsLocked(false) }} />
+  }
+
+  // Jika Belum Terotentikasi & Tidak Dalam Mode Demo: Tampilkan Landing Page lalu AuthScreen
   if (!user && !isDemoMode) {
+    // Show landing page first
+    if (showLanding) {
+      return (
+        <>
+          <LandingPage
+            onLogin={() => setShowLanding(false)}
+            onDemo={() => {
+              setShowLanding(false)
+              setIsDemoMode(true)
+              showToast('info', 'Mode Demo Lokal', 'Anda menjelajahi Astaron Finance dengan penyimpanan lokal sementara.')
+            }}
+          />
+          <Toast toast={toast} onClose={() => setToast(null)} />
+        </>
+      )
+    }
     return (
       <>
         <AuthScreen
@@ -794,6 +860,7 @@ export default function App() {
             setIsDemoMode(true)
             showToast('info', 'Mode Demo Lokal', 'Anda menjelajahi Astaron Finance dengan penyimpanan lokal sementara.')
           }}
+          onBack={() => setShowLanding(true)}
         />
         <Toast toast={toast} onClose={() => setToast(null)} />
       </>
@@ -857,24 +924,42 @@ export default function App() {
               </p>
 
               <div className="flex flex-wrap items-center gap-2 pt-1">
-                <button
-                  onClick={() => loadData(true)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0B0F19] hover:bg-[#141A28] border border-slate-800 text-xs text-slate-300 hover:text-white transition-all cursor-pointer"
-                  title="Perbarui data secara langsung"
-                >
+                <button onClick={() => loadData(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0B0F19] hover:bg-[#141A28] border border-slate-800 text-xs text-slate-300 hover:text-white transition-all cursor-pointer">
                   <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-[#E0A96D]' : ''}`} />
-                  <span>Segarkan Data</span>
+                  <span>Segarkan</span>
                 </button>
-
-                <button
-                  onClick={() => {
-                    setEditingTransaction({ type: 'transfer' })
-                    setIsTransactionModalOpen(true)
-                  }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0B0F19] hover:bg-[#141A28] border border-slate-800 text-xs text-[#E0A96D] hover:text-[#F3C5B5] transition-all cursor-pointer"
-                >
-                  <ArrowRightLeft className="w-3.5 h-3.5" />
-                  <span>Transfer Cepat</span>
+                <button onClick={() => { setEditingTransaction({ type: 'transfer' }); setIsTransactionModalOpen(true) }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0B0F19] hover:bg-[#141A28] border border-slate-800 text-xs text-[#E0A96D] hover:text-[#F3C5B5] transition-all cursor-pointer">
+                  <ArrowRightLeft className="w-3.5 h-3.5" /><span>Transfer</span>
+                </button>
+                <button onClick={() => setIsCalcModalOpen(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0B0F19] hover:bg-[#141A28] border border-slate-800 text-xs text-violet-400 hover:text-violet-300 transition-all cursor-pointer">
+                  <Calculator className="w-3.5 h-3.5" /><span>Kalkulator</span>
+                </button>
+                <button onClick={() => setIsBankImportOpen(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0B0F19] hover:bg-[#141A28] border border-slate-800 text-xs text-blue-400 hover:text-blue-300 transition-all cursor-pointer">
+                  <FileText className="w-3.5 h-3.5" /><span>Import Bank</span>
+                </button>
+                <button onClick={() => setIsReceiptScanOpen(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0B0F19] hover:bg-[#141A28] border border-slate-800 text-xs text-violet-400 hover:text-violet-300 transition-all cursor-pointer">
+                  <Camera className="w-3.5 h-3.5" /><span>Scan Struk</span>
+                </button>
+                <button onClick={() => setIsRecurringOpen(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0B0F19] hover:bg-[#141A28] border border-slate-800 text-xs text-cyan-400 hover:text-cyan-300 transition-all cursor-pointer">
+                  <Clock className="w-3.5 h-3.5" /><span>Rutin</span>
+                </button>
+                <button onClick={() => setIsNotifPanelOpen(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0B0F19] hover:bg-[#141A28] border border-slate-800 text-xs text-amber-400 hover:text-amber-300 transition-all cursor-pointer">
+                  <Bell className="w-3.5 h-3.5" /><span>Notifikasi</span>
+                </button>
+                <button onClick={() => generatePdfReport({ summary, transactions, wallets, selectedMonth })}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0B0F19] hover:bg-[#141A28] border border-slate-800 text-xs text-emerald-400 hover:text-emerald-300 transition-all cursor-pointer">
+                  <Download className="w-3.5 h-3.5" /><span>PDF</span>
+                </button>
+                <button onClick={() => setIsLockSetupOpen(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0B0F19] hover:bg-[#141A28] border border-slate-800 text-xs text-[#E0A96D] hover:text-[#F3C5B5] transition-all cursor-pointer">
+                  <Lock className="w-3.5 h-3.5" /><span>App Lock</span>
                 </button>
               </div>
             </div>
@@ -902,6 +987,16 @@ export default function App() {
         {/* 1. Summary Cards (Total Saldo, Pemasukan, Pengeluaran, Net Cashflow) */}
         <motion.div variants={staggerItemVariants}>
           <SummaryCards summary={summary} />
+        </motion.div>
+
+        {/* 1b. AI Financial Health Score (NEW) */}
+        <motion.div variants={staggerItemVariants}>
+          <FinancialHealthScore summary={summary} goals={goals} reminders={reminders} />
+        </motion.div>
+
+        {/* 1c. Net Worth Tracker (NEW) */}
+        <motion.div variants={staggerItemVariants}>
+          <NetWorthWidget wallets={wallets} />
         </motion.div>
 
         {/* 2. Seksi Saldo per Akun/Dompet (DANA, ShopeePay, GoPay, Bank BCA, Tunai) */}
@@ -956,6 +1051,7 @@ export default function App() {
             }}
             onDeleteReminder={handleDeleteReminder}
             onPayReminder={(r) => setPayReminderTarget(r)}
+            onOpenNotifications={() => setIsNotifPanelOpen(true)}
           />
         </motion.div>
 
@@ -964,6 +1060,7 @@ export default function App() {
           <BudgetOverview
             monthlyExpense={summary?.monthlyExpense || 0}
             budget={summary?.budget || 8000000}
+            categories={summary?.expenseCategories || []}
             onUpdateBudget={handleUpdateBudget}
           />
         </motion.div>
@@ -1016,13 +1113,21 @@ export default function App() {
       <footer className="border-t border-slate-800/80 bg-[#070A0F] py-6 mt-12 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-300">Astaron Finance</span>
+            <span className="font-bold text-slate-300">Astaron Finance PRO</span>
             <span>&bull;</span>
-            <span className="text-slate-400">Goals, Reminders & Wealth Intelligence</span>
+            <span className="text-slate-400">Goals, Reminders &amp; Wealth Intelligence</span>
           </div>
-          <div className="text-slate-400 text-[11px] flex items-center gap-1.5">
-            <Lock className="w-3 h-3 text-[#E0A96D]" />
-            <span>Supabase BaaS &bull; RLS Protected &bull; Rose Gold Luxury Edition</span>
+          <div className="flex items-center gap-3">
+            <button onClick={() => setIsLockSetupOpen(true)} className="flex items-center gap-1.5 text-[#E0A96D]/70 hover:text-[#E0A96D] transition-colors cursor-pointer">
+              <Lock className="w-3 h-3" /><span>App Lock</span>
+            </button>
+            <button onClick={() => generatePdfReport({ summary, transactions, wallets, selectedMonth })} className="flex items-center gap-1.5 text-emerald-400/70 hover:text-emerald-400 transition-colors cursor-pointer">
+              <Download className="w-3 h-3" /><span>Laporan PDF</span>
+            </button>
+            <div className="text-slate-600 text-[11px] flex items-center gap-1.5">
+              <Lock className="w-3 h-3 text-[#E0A96D]" />
+              <span>Supabase BaaS &bull; RLS Protected</span>
+            </div>
           </div>
         </div>
       </footer>
@@ -1116,6 +1221,66 @@ export default function App() {
         onClose={() => setIsExportImportModalOpen(false)}
         onImportSuccess={handleImportSuccess}
       />
+
+      {/* === NEW MODALS (v2) === */}
+      {/* Kalkulator Finansial */}
+      <FinancialCalculatorModal
+        isOpen={isCalcModalOpen}
+        onClose={() => setIsCalcModalOpen(false)}
+        monthlyExpense={summary?.monthlyExpense || 0}
+      />
+
+      {/* Import Mutasi Bank */}
+      <BankImportModal
+        isOpen={isBankImportOpen}
+        onClose={() => setIsBankImportOpen(false)}
+        wallets={wallets}
+        onImport={(txns) => {
+          txns.forEach(tx => handleSaveTransaction(tx))
+          setIsBankImportOpen(false)
+          showToast('success', 'Import Berhasil', `${txns.length} transaksi berhasil diimpor.`)
+        }}
+      />
+
+      {/* Scan Struk Belanja */}
+      <ReceiptScanModal
+        isOpen={isReceiptScanOpen}
+        onClose={() => setIsReceiptScanOpen(false)}
+        wallets={wallets}
+        onConfirm={(txData) => {
+          handleSaveTransaction(txData)
+          setIsReceiptScanOpen(false)
+        }}
+      />
+
+      {/* Transaksi Rutin */}
+      <RecurringTransactionsModal
+        isOpen={isRecurringOpen}
+        onClose={() => setIsRecurringOpen(false)}
+        wallets={wallets}
+        onAddTransaction={(txData) => handleSaveTransaction(txData)}
+      />
+
+      {/* App Lock Setup */}
+      <AppLockSetupModal
+        isOpen={isLockSetupOpen}
+        onClose={() => setIsLockSetupOpen(false)}
+      />
+
+      {/* Modal Pengaturan Notifikasi & Pengingat */}
+      {isNotifPanelOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm" onClick={() => setIsNotifPanelOpen(false)}>
+          <div className="bg-[#0D111A] border border-slate-800 rounded-2xl p-6 max-w-lg w-full space-y-4 shadow-2xl" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <Bell className="w-5 h-5 text-[#E0A96D]" /> Pengaturan Notifikasi &amp; WhatsApp
+              </h3>
+              <button onClick={() => setIsNotifPanelOpen(false)} className="text-slate-400 hover:text-white text-sm cursor-pointer p-1">✕</button>
+            </div>
+            <NotificationSettingsPanel reminders={reminders} />
+          </div>
+        </div>
+      )}
 
       {/* Toast Notification Container */}
       <Toast toast={toast} onClose={() => setToast(null)} />
